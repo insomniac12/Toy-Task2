@@ -1,0 +1,160 @@
+
+<html>
+    <head>
+        {% load static %}
+        <link type="text/css" rel=stylesheet href="/static/bootstrap-3.3.6-dist/css/bootstrap.min.css">
+        <link type="text/css" rel=stylesheet href="/static/bootstrap-3.3.6-dist/css/bootstrap.css">
+        <link type="text/css" rel=stylesheet href="/static/bootstrap-3.3.6-dist/css/bootstrap-theme.min.css">
+        <link type="text/css" rel=stylesheet href="/static/bootstrap-3.3.6-dist/css/bootstrap-theme.css">
+        <link type="text/css" rel=stylesheet href="/static/bootstrap-3.3.6-dist/js/bootstrap.min.js">
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        
+     <Script>
+    /*var arr=[];
+    var func=function()
+    {
+     arr.push(document.getElementById("modules").value);
+     alert(arr);
+    }*/
+    var openFile = function(event) {
+     input = event.target;
+    var reader = new FileReader();
+    reader.onload = function(){
+      var dataURL = reader.result;
+      var output = document.getElementById('output');
+      output.src = dataURL;
+    };
+   reader.readAsDataURL(input.files[0]);
+    name=input.files[0].name;
+  };
+ 
+    var allVals = [];
+    var pipeline=[];
+    var k=0;
+    var i=0;
+    var j=0;
+       var func=function(name)
+   {
+    allVals.push(name);
+    
+   };
+    var doit = function(id,val){
+        
+        $('#'+id).click(function(){
+    for(j=0;j<val.length;j++){
+    if (val[j].length>0) {
+    allVals[j]=val[j];
+    }
+    else{
+    break;}
+    }
+            });
+      return;
+    };
+   
+   var cl=function()
+   {
+    allVals=[];
+    alert(allVals);
+   };
+   var save_pipe=function()
+   {
+    
+    pipeline[k]=new Array(10);
+    for (j=0;j<allVals.length;j++)
+    {
+        
+        pipeline[k][j]=allVals[j];
+    }
+    option=document.createElement("option");
+    select=document.getElementById("ppl");
+    option.text="pipeline"+k;
+    option.id=k;
+    select.appendChild(option);
+    doit(k,pipeline[k]);
+    k=k+1;
+    for (i=0;i<pipeline.length;i++)
+ alert("pipeline"+ i + "is" + pipeline[i]);
+     $.ajax({
+        type:"POST",
+        url:"/pipe/",
+        data:{"pipeline":JSON.stringify(pipeline)},
+        sucess:function(JSON){
+            alert("success");
+            },
+        error:function()
+            {
+                alert(bye);
+            }
+        
+    });
+   };
+
+  
+  var fro=  function(e){
+    e.preventDefault();
+       //allVals = []
+    $.ajax({  
+         type: "POST",  
+         url: "/create_post/",
+         data:{"allVals":JSON.stringify(allVals),"name":name},
+         success: function(response){
+            for (a=0;a<response.url.length;a++) {
+                         
+          img=document.createElement("img");
+          alert(response.url[a]);
+          img.setAttribute("src","/static/images/"+response.url[a])
+            document.getElementById("imgid").appendChild(img)
+            }
+        
+         },
+         
+         error: function(e){  
+             alert("no");
+         }
+     });
+    
+  };
+ 
+   
+
+
+    </Script>
+    </head>
+
+    <body>
+        <h3>CloudCV GSoC 2016-Toy Computer Vision IDE</h3>
+      <form action="" id="myform"  >
+        <input type=file id=img accept=image onchange=openFile(event)>
+        <input type=submit  value="Run" onclick="fro(event)">
+       
+      </form>
+       <div><form action="" id=form>
+        <input type=button name="Clear" value=ClearPipeline onClick=cl()><br>
+         <input type=button name="save" value=savePipeline class=sp onClick=save_pipe()><br>
+     <input type=button class=image name="resize" value=resize onclick=func("resize")><br>
+      <input type=button class=image name="blur" value=blur onclick=func("blur")><br>
+      <input type=button class=image name="rotate" value=rotate onclick=func("rotate")><br>
+      
+     <!-- <input type=checkbox class=image name="pyramid" value=pyramid>Pyramid<br>!-->
+       </form></div>
+       
+      <!-- <div class="container">
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary">Pipeline</button>
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+
+            <span class ="caret"></span></button>
+            <ul class ="dropdown-menu" role="menu">
+            <li><a href="#">0</a></li>
+            <li><a href="#">1</a></li>
+            </ul>
+        </div>
+        </div> !-->
+       <select id="ppl">
+      </select>
+    <div id="imgid">
+        <img id='output'  src="" alt='upload image'>
+    </div>
+    </body>
+</html>
