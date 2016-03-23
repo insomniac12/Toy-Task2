@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.views.decorators.csrf import csrf_exempt 
+from django.views.decorators.csrf import csrf_exempt
+from  .models import pipelines
 import cv2
 import json
 import numpy as np
@@ -9,7 +10,10 @@ import numpy as np
 # Create your views here.
 def myview(request):
     template_name='index.html'
-    return render(request,template_name)
+
+    data=pipelines.objects.all()
+    
+    return render(request,template_name,{'data':data})
     
 @csrf_exempt
 def create_post(request):
@@ -47,12 +51,6 @@ def create_post(request):
                 
             cv2.imwrite(s+name,image)
             response_data['url'].append(name)    
-            
-        
-        
-        
-        
-        
         return HttpResponse(json.dumps(response_data),content_type="application/json")
    
 @csrf_exempt         
@@ -60,10 +58,22 @@ def pipe(request):
     if request.method=='POST':
          op2=request.POST.get('pipeline')
          print op2
-         f=open("myfile.txt",'w')
-         f.write(op2)
-         f.close()     
-    return HttpResponse("ndcso")
-         
+         #f=open("myfile.txt",'w')
+        # f.write(op2)
+        #f.close()
+         op2=json.loads(op2)
+         for i in op2:
+            p=pipelines(pipeline_data=i)
+            p.save()
+         arr={}
+         data=pipelines.objects.all()
+         print data
+         arr['index']=[]
+         for i in data :
+            arr['index'].append(i.pipeline_data)
+            print arr['index']
+        # arr['test']="ok"
+    return HttpResponse(json.dumps(arr),content_type="application/json")
+
+
     
-     

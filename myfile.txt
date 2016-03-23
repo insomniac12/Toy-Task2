@@ -1,1 +1,1 @@
-[["resize","blur",null,null,null,null,null,null,null,null],["rotate",null,null,null,null,null,null,null,null,null]]
+[["resize","resize","resize","blur",null,null,null,null,null,null]]
