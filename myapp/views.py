@@ -30,7 +30,6 @@ def create_post(request):
             if i=="resize":
                 r=100.0/image.shape[1]
                 dim=(100,int(image.shape[0]*r))
-                #image=cv2.resize(image,dim,interpolation=cv2.INTER_AREA)
                 image=cv2.resize(image,(0,0),fx=0.5,fy=0.5)
                 name="resized"+name
             elif i=="blur":
@@ -44,10 +43,7 @@ def create_post(request):
                 M=cv2.getRotationMatrix2D(center,180,1.0)
                 image=cv2.warpAffine(image,M,(w,h))
                 name="rotated"+name
-                
-            '''elif i=="pyramid":
-                image=cv2.pyrDown(higher_reso)
-                new_url="pyramid"+name'''
+           
                 
             cv2.imwrite(s+name,image)
             response_data['url'].append(name)    
@@ -57,22 +53,18 @@ def create_post(request):
 def pipe(request):
     if request.method=='POST':
          op2=request.POST.get('pipeline')
-         print op2
-         #f=open("myfile.txt",'w')
-        # f.write(op2)
-        #f.close()
+        # print op2
          op2=json.loads(op2)
          for i in op2:
             p=pipelines(pipeline_data=i)
             p.save()
          arr={}
          data=pipelines.objects.all()
-         print data
+         #print data
          arr['index']=[]
          for i in data :
             arr['index'].append(i.pipeline_data)
-            print arr['index']
-        # arr['test']="ok"
+            #print arr['index']
     return HttpResponse(json.dumps(arr),content_type="application/json")
 
 

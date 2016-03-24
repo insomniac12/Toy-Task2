@@ -4,7 +4,6 @@
 
         <link type="text/css" rel=stylesheet href="/static/bootstrap-3.3.6-dist/css/bootstrap.min.css">
         <link type="text/css" rel=stylesheet href="/static/bootstrap-3.3.6-dist/css/bootstrap.css">
-        
         <link type="text/css" rel=stylesheet href="/static/bootstrap-3.3.6-dist/css/bootstrap-theme.min.css">
         <link type="text/css" rel=stylesheet href="/static/bootstrap-3.3.6-dist/css/bootstrap-theme.css">
         <link type="text/css" rel=stylesheet href="/static/bootstrap-3.3.6-dist/js/bootstrap.min.js">
@@ -12,159 +11,9 @@
         <link type="text/css" rel=stylesheet href="/static/simple-sidebar.css">
         <link type="text/css" rel=stylesheet href="/static//bootstrap.min.css">
 
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<link type="text/css" rel=stylesheet href="/static/bootstrap-3.3.6-dist/css/shop-item.css">        
-     <Script>
-    
-    var openFile = function(event) {
-     input = event.target;
-    var reader = new FileReader();
-    reader.onload = function(){
-      var dataURL = reader.result;
-      var output = document.getElementById('output');
-      output.src = dataURL;
-    };
-   reader.readAsDataURL(input.files[0]);
-    name=input.files[0].name;
-  };
- 
-    var allVals = [];
-    var pipeline=[];
-    var k=0;
-    var i=0;
-    var j=0;
-    var l=0;
-       var func=function(name)
-   {
-    allVals.push(name);
-    
-   };
-    var doit = function(id,val){
-        
-        $('#'+id).click(function(){
-    for(j=0;j<val.length;j++){
-    if (val[j].length>0) {
-    allVals[j]=val[j];
-    }
-    else{
-    break;}
-    }
-            });
-      return;
-    };
-    
-  
-   var cl=function()
-   {
-    allVals=[];
-    alert(allVals);
-   };
-   var pipeline_temp=[];
-   var x;
-   var save_temp_pipe=function()
-   {
-    
-    pipeline_temp[k]=new Array(10);
-    for (j=0;j<allVals.length;j++)
-    {
-        
-        pipeline_temp[k][j]=allVals[j];
-    }
-    option=document.createElement("option");
-    select=document.getElementById("ppl");
-    option.text="pipeline"+k;
-    option.id=k;
-    select.appendChild(option);
-    doit(k,pipeline_temp[k]);
-    k=k+1;
-    for (x=0;x<pipeline_temp.length;x++)
- alert("pipeline"+ x + "is" + pipeline_temp[x]);
-   }
-var z;
-   var save_pipe=function()
-   {
-    pipeline[i]=new Array(10);
-    for (l=0;l<allVals.length;l++)
-    {
-        
-        pipeline[i][l]=allVals[l];
-    }
- i=i+1;
-     $.ajax({
-        type:"POST",
-        url:"/pipe/",
-        data:{"pipeline":JSON.stringify(pipeline)},
-        success:function(json){
-    // alert(json.test);
-     //alert(json.index[0]);
-     $.each(json.index,function(){
-            option=document.createElement("option");
-    select=document.getElementById("demo");
-    text=document.createTextNode(this);});
-    option.id=z;
-    option.appendChild(text);
-    select.appendChild(option);
-     z=z+1;
-           // i=i+1;
-            },
-        error:function()
-            {
-                alert("bye");
-                
-            }
-        
-    });
-   };
-
-  
-  var run =  function(e){
-    
-    e.preventDefault();
-       //allVals = []
-    $.ajax({  
-         type: "POST",  
-         url: "/create_post/",
-         data:{"allVals":JSON.stringify(allVals),"name":name},
-         success: function(response){
-            for (a=0;a<response.url.length;a++) {
-                         
-          img=document.createElement("img");
-          alert(response.url[a]);
-          img.setAttribute("src","/static/images/"+response.url[a])
-            document.getElementById("photo").appendChild(img)
-            }
-        
-         },
-         
-         error: function(e){  
-             alert("no");
-         },
-     });
-    
-  };
-  var res=[];
-  var l;
-var func_pipe=function()
-{
-  v=$('#demo').val();
-v=v.split(',');
-  for (i=0;i<v.length;i++) {
-    l=v[i].length;
-
-         res[i]=v[i].substring(3,l-1);
-        
-    
-    if (res[i]!='n' && res[i]!='ne') {
-       
-        allVals[i]=res[i]
-        
-    }
-  }
-
-  
-};
-
-</Script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>       
+    <script src="/static/js/index.js"></script>
+    <link rel=stylesheet href="/static/css/index.css">
 </head>
 
 <body >
@@ -180,60 +29,50 @@ v=v.split(',');
     
 
         <!-- Sidebar -->
-        <div id="sidebar-wrapper">
-            <ul class="sidebar-nav">
-                 <div style=position:absolute;top:100px;left:5%;>
-                <form action="" id=form class="sidebar-brand">
-        
-                    <input type=button class=image name="resize" value=RESIZE onclick=func("resize") style=color:#480000;font-weight:bold;font-size:15px;margin-top:10px;margin-bottom:10px;margin-left:10px;margin-right:10px;padding-top:5px;padding-bottom:5px;padding-left:75px;padding-right:75px><br>
-                
-                <input type=button class=image name="blur" value=BLUR onclick=func("blur")  style=color:#480000;font-weight:bold;font-size:15px;margin-top:10px;margin-bottom:10px;margin-left:10px;margin-right:10px;padding-top:5px;padding-bottom:5px;padding-left:80px;padding-right:80px><br>
+<div id="sidebar-wrapper">
+    <ul class="sidebar-nav">
+        <div  class=side >
+            <form action="" id=form class="sidebar-brand">
+                  <input type=button class=image1 name="resize" value=RESIZE onclick=func("resize")><br>
+                  <input type=button class=image2 name="blur" value=BLUR onclick=func("blur")><br>
+                  <input type=button class=image3 name="rotate" value=ROTATE onclick=func("rotate")><br>
+            </form>
+                  <input type=button name="Clear"class=clear value="CLEAR PIPELINE" onClick=cl()></br>
+         </div>
+     </ul>
+</div>
     
-        <input type=button class=image name="rotate" value=ROTATE onclick=func("rotate")  style=color:#480000;font-weight:bold;font-size:15px;margin-top:10px;margin-bottom:10px;margin-left:10px;margin-right:10px;padding-top:5px;padding-bottom:5px;padding-left:72px;padding-right:72px><br>
-                </form>
-                 <input type=button name="Clear" value="CLEAR PIPELINE" onClick=cl() style=color:#480000;position:relative;top:200px;font-weight:bold;font-size:15px;margin-top:10px;margin-bottom:10px;margin-left:10px;margin-right:10px;padding-top:5px;padding-bottom:5px;padding-left:42px;padding-right:42px><br>
-            </div>
-            </ul>
-        </div>
-    <!-- <div style=position:absolute;top:100px;>
-        <form action="" id=form >
-          <input type=button class=image name="resize" value=resize onclick=func("resize")><br>
-          <input type=button class=image name="blur" value=blur onclick=func("blur")><br>
-        <input type=button class=image name="rotate" value=rotate onclick=func("rotate")><br>
-       </form>
-     </div>!-->
-       
-    <div style=position:relative;top:300px;left:60%>
-   
-    </div>
-        <div style=position:absolute;top:100px;left:60%;>
-         <h4><b>Temporary pipeline</b></h4>
-         <input type=button value="SAVE PIPELINE" class=sp onClick=save_temp_pipe() style=color:#480000;font-weight:bold;font-size:15px;padding-top:5px;padding-bottom:5px;padding-left:10px;padding-right:10px><br>
-         <select id="ppl" ></select>
-        </div>
-        
-        <div style=position:absolute;top:100px;left:75%;>
-         <h4><b>Pipelines in database</h4></b>
-          <input type=button value="SAVE IN DB" class=sp onClick=save_pipe() style=color:#480000;font-weight:bold;font-size:15px;padding-top:5px;padding-bottom:5px;padding-left:10px;padding-right:10px><br><select id="demo" onchange=func_pipe() >
-           {% for item in data%}
-             <option value="{{item.pipeline_data}}">{{item.pipeline_data}}</option>
-           {%endfor%}
-         </select>
-    </div>
        
 
-<div style=position:relative;top:300px;left:30%;>
+<div class=temp >
+    <h4>Temporary pipeline</h4>
+        <input type=button value="SAVE PIPELINE" class=sp onClick=save_temp_pipe() ><br>
+         <select id="ppl" ></select>
+</div>
+        
+<div class=db >
+    <h4>Pipelines in database</h4>
+        <input type=button value="SAVE IN DB" class=sp onClick=save_pipe()><br>
+         <select id="demo" onchange=func_pipe() >
+           {% for item in data%}
+              <option value="{{item.pipeline_data}}">{{item.pipeline_data}}</option>
+           {%endfor%}
+         </select>
+</div>
+       
+
+<div class=load>
         <form action="" id="myform" >
         <input type=file id=img accept=image onchange=openFile(event)>
         <input type=submit  value="Submit" onclick=run(event)>
         </form>
 </div>
 
-<div id="imgid" style=position:absolute;top:100px;left:30%;>
-<img id='output'  src="" alt='Upload image' style=font-weight:bold;;font-size:20px>
+<div id="imgid" >
+<img id='output'  src="" alt='Upload image' >
 </div></br>
    
-    <div id="photo" style=position:absolute;top:400px;left:20%;display:inline-block;margin:10px>
+    <div id="photo">
          </div>
 
 </body>
